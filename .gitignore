@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+*.py[cod]
+tgc_env/
+.python-version
+
+# Logs
+*.log
+logs/
