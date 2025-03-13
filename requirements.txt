@@ -5,3 +5,9 @@ numpy==1.23.5
 pandas==1.5.2
 munkres==1.1.4
 scikit-learn==1.1.1
+
+# python -m venv tgc_env
+# .\tgc_env\Scripts\activate
+#pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+#pip install gensim --no-build-isolation
+#pip install munkres==1.1.4 scikit-learn pandas==1.5.2 networkx==2.8.4
