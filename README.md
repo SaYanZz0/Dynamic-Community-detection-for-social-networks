@@ -1,10 +1,9 @@
 # Deep Temporal Graph Clustering
 
-This is a comprehensive repository that brings together our work on deep temporal graph clustering, including a series of related papers, open source datasets, and implementations of the TGC base code.
+This is an implementation of deep temporal graph clustering Paper, including a series of related papers and open source datasets.
 
-If you find any problems, feel free to contact us: ```mengliuedu@163.com```.
 
-## Key Papers
+## Key Paper
 
 ### [1] ICLR 2024: Deep Temporal Graph Clustering
 
@@ -12,15 +11,10 @@ Authors: Meng Liu, Yue Liu, Ke Liang, Wenxuan Tu, Siwei Wang, Sihang Zhou, Xinwa
 
 Link: https://arxiv.org/abs/2305.10738
 
-#### Award
 
-Best Paper Award of 2024 China Computational Power Conference.
+## Code
 
-Excellent Poster Award of 2024 World Young Scientist Summit..
-
-## Code of TGC
-
-This is the PyTorch version of TGC. We want to provide you with as much usable code as possible.
+ You should Note that i used Cpu for Excuting the code because CUDA doesn't support my GPU , so if you want to use CUDA you can change the code .
 
 ## Prepare
 
@@ -28,7 +22,7 @@ To run the code, you need prepare datasets and pretrain embeddings:
 
 #### For Datasets
 
-You can download the datasets from [Data4TGC](https://github.com/MGitHubL/Data4TGC) and create "data" folder in the same directory as the "emb" and "framework" folders.
+You can download the datasets from [Data4TGC]((https://drive.google.com/drive/folders/1-4O3V0ZcC_f8yP5ylW9CX-lE6qucbFfh)) and create "data" folder in the same directory as the "emb" and "framework" folders.
 
 #### For Pre-Training
 
@@ -61,16 +55,3 @@ For test, you have two ways:
 
 Note that the node embeddings in the ```./emb./patent/patent_TGC_200.emb``` folder are just placeholders, you need to run the main code to generate them.
 
-
-## Cite us
-
-If you feel our work has been helpful, thank you for the citation.
-
-```
-@inproceedings{TGC_ML_ICLR,
-  title={Deep Temporal Graph Clustering},
-  author={Liu, Meng and Liu, Yue and Liang, Ke and Tu, Wenxuan and Wang, Siwei and Zhou, Sihang and Liu, Xinwang},
-  booktitle={The 12th International Conference on Learning Representations},
-  year={2024}
-}
-```
