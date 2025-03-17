@@ -22,7 +22,7 @@ To run the code, you need prepare datasets and pretrain embeddings:
 
 #### For Datasets
 
-You can download the datasets from [Data4TGC]((https://drive.google.com/drive/folders/1-4O3V0ZcC_f8yP5ylW9CX-lE6qucbFfh)) and create "data" folder in the same directory as the "emb" and "framework" folders.
+You can download the datasets from [DATA](https://drive.google.com/drive/folders/1-4O3V0ZcC_f8yP5ylW9CX-lE6qucbFfh) and create "data" folder in the same directory as the "emb" and "framework" folders.
 
 #### For Pre-Training
 
