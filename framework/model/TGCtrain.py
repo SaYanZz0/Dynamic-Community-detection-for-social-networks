@@ -39,6 +39,9 @@ class TGC:
         self.best_nmi = 0
         self.best_ari = 0
         self.best_f1 = 0
+        # Early stopping parameters
+        self.patience = args.patience if hasattr(args, 'patience') else 10
+        self.min_delta = args.min_delta if hasattr(args, 'min_delta') else 0.1
 
         self.data = TGCDataSet(self.file_path, self.neg_size, self.hist_len, self.feature_path, args.directed)
         self.node_dim = self.data.get_node_dim()
@@ -155,6 +158,11 @@ class TGC:
             self.opt.step()
 
     def train(self):
+        # Initialize proper tracking for early stopping
+        epochs_no_improve = 0
+        best_epoch = 0
+        last_nmi = 0
+        
         for epoch in range(self.epochs):
             self.loss = 0.0
             loader = DataLoader(self.data, batch_size=self.batch, shuffle=True, num_workers=0)
@@ -178,19 +186,34 @@ class TGC:
             else:
                 acc, nmi, ari, f1 = eva(self.clusters, self.labels, self.node_emb)
 
-            if nmi > self.best_nmi and epoch > 10:
+            # Handle best model saving and early stopping tracking
+            if nmi > self.best_nmi:
+                # We found a better model
                 self.best_acc = acc
                 self.best_nmi = nmi
                 self.best_ari = ari
                 self.best_f1 = f1
+                best_epoch = epoch
                 self.save_node_embeddings(self.emb_path % (self.the_data, self.the_data, self.epochs))
+                # Reset counter since we improved
+                epochs_no_improve = 0
+            else:
+                # No improvement in this epoch
+                epochs_no_improve += 1
 
             sys.stdout.write('\repoch %d: loss=%.4f  ' % (epoch, (self.loss.cpu().numpy() / len(self.data))))
-            sys.stdout.write('ACC(%.4f) NMI(%.4f) ARI(%.4f) F1(%.4f)\n' % (acc, nmi, ari, f1))
+            sys.stdout.write('ACC(%.4f) NMI(%.4f) ARI(%.4f) F1(%.4f) ' % (acc, nmi, ari, f1))
+            sys.stdout.write('Best NMI(%.4f) at epoch %d\n' % (self.best_nmi, best_epoch))
             sys.stdout.flush()
+            
+            # Early stopping check - only after a minimum number of epochs
+            if epochs_no_improve >= self.patience and epoch > 20:
+                sys.stdout.write('\rEarly stopping triggered. No improvement for %d epochs (best NMI: %.4f at epoch %d)\n' 
+                                % (self.patience, self.best_nmi, best_epoch))
+                break
 
-        print('Best performance: ACC(%.4f) NMI(%.4f) ARI(%.4f) F1(%.4f)' %
-              (self.best_acc, self.best_nmi, self.best_ari, self.best_f1))
+        print('Best performance: ACC(%.4f) NMI(%.4f) ARI(%.4f) F1(%.4f) at epoch %d' %
+              (self.best_acc, self.best_nmi, self.best_ari, self.best_f1, best_epoch))
         
 
     def save_node_embeddings(self, path):

@@ -5,7 +5,7 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bo
 from evaluation import evaluation
 
 
-def test_external_score(emb_path, label_path, k):
+def test_external_score(data ,emb_path, label_path, k):
     n2l = dict()
     with open(label_path, 'r') as reader:
         for line in reader:
@@ -33,16 +33,17 @@ def test_external_score(emb_path, label_path, k):
     cluster_id = model.fit_predict(X)
     center = model.cluster_centers_
     acc, nmi, ari, f1 = evaluation(Y, cluster_id)
-    print('ACC: %f, NMI: %f, ARI: %f, F1: %f' % (acc, nmi, ari, f1))
+    print('Results for the DATASET OF : %s ,ACC: %f, NMI: %f, ARI: %f, F1: %f' % (data,acc, nmi, ari, f1))
 
 
 if __name__ == '__main__':
-    data = 'arxivAI'
+    data = 'patent'
     model = 'TGC_200'
 
-    emb_path = '../../emb/%s/%s_%s.emb' % (data, data, model)
+    emb_path = '../../emb/%s/%s_TGC_10.emb' % (data, data)
     label_path = '../../data/%s/node2label.txt' % (data)
-    ex_dict = {'arxivAI': 5, 'dblp': 10}
+    ex_dict = {'arxivAI': 5, 'arxivCS': 40, 'arxivPhy': 53, 'arxivMath': 31, 'arxivLarge': 172, 'school': 9, 'dblp': 10,
+              'brain': 10, 'patent': 6}
 
     k = ex_dict[data]
-    test_external_score(emb_path, label_path, k)
+    test_external_score(data , emb_path, label_path, k)

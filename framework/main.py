@@ -23,7 +23,7 @@ def main_train(args):
 
 
 if __name__ == '__main__':
-    data = 'patent'
+    data = 'arxivAI'
     k_dict = {'arxivAI': 5, 'arxivCS': 40, 'arxivPhy': 53, 'arxivMath': 31, 'arxivLarge': 172, 'school': 9, 'dblp': 10,
               'brain': 10, 'patent': 6}
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default=data)
     parser.add_argument('--clusters', type=int, default=k_dict[data])
     # dblp/10, arxivAI/5
-    parser.add_argument('--epoch', type=int, default=200)
+    parser.add_argument('--epoch', type=int, default=10)
     # dblp/50, arxivAI/200
     parser.add_argument('--neg_size', type=int, default=2)
     parser.add_argument('--hist_len', type=int, default=1)
@@ -41,6 +41,13 @@ if __name__ == '__main__':
     parser.add_argument('--learning_rate', type=float, default=0.01)
     parser.add_argument('--emb_size', type=int, default=128)
     parser.add_argument('--directed', type=bool, default=False)
+    # Updated early stopping parameters
+    parser.add_argument('--patience', type=int, default=2, 
+                        help='Number of epochs with no improvement after which training will be stopped')
+    parser.add_argument('--min_delta', type=float, default=0.1, 
+                        help='Minimum change in the monitored metric to qualify as an improvement')
+    parser.add_argument('--visualize', action='store_true',
+                        help='Enable dataset and results visualization')
     args = parser.parse_args()
 
     main_train(args)

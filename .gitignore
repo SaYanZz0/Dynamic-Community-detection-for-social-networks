@@ -7,3 +7,16 @@ tgc_env/
 # Logs
 *.log
 logs/
+
+# data
+data/*
+!data/patent/
+!data/patent/**/*
+
+#emb
+emb/*
+!emb/patent/
+!emb/patent/**/*
+
+
+
