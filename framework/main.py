@@ -23,7 +23,7 @@ def main_train(args):
 
 
 if __name__ == '__main__':
-    data = 'arxivAI'
+    data = 'patent'
     k_dict = {'arxivAI': 5, 'arxivCS': 40, 'arxivPhy': 53, 'arxivMath': 31, 'arxivLarge': 172, 'school': 9, 'dblp': 10,
               'brain': 10, 'patent': 6}
 

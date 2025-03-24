@@ -233,34 +233,19 @@ class TGC:
         return total_loss
 
     def update(self, s_nodes, t_nodes, t_times, n_nodes, h_nodes, h_times, h_time_mask):
-        """
-        Update model parameters based on a batch of data.
-        
-        Args:
-            s_nodes: Source nodes
-            t_nodes: Target nodes
-            t_times: Timestamps of target nodes
-            n_nodes: Negative samples
-            h_nodes: Historical context nodes
-            h_times: Timestamps of historical nodes
-            h_time_mask: Mask for valid historical interactions
-            
-        This method performs a single optimization step for the model.
-        """
-        # Perform optimization step with accumulated gradients if we have enough samples
-        if self.mini_batch > 0:
-            self.mini_batch -= 1
-            loss = self.forward(s_nodes, t_nodes, t_times, n_nodes, h_nodes, h_times, h_time_mask)
-            self.loss += loss.data
-            loss.backward()
-            if self.mini_batch == 0:
-                self.opt.step()
+        if torch.cuda.is_available():
+             with torch.cuda.device(DID):
+                 self.opt.zero_grad()
+                 loss = self.forward(s_nodes, t_nodes, t_times, n_nodes, h_nodes, h_times, h_time_mask)
+                 self.loss += loss.data
+                 loss.backward()
+                 self.opt.step()
         else:
-            # Regular optimization step
-            self.opt.zero_grad()
-            loss = self.forward(s_nodes, t_nodes, t_times, n_nodes, h_nodes, h_times, h_time_mask)
-            self.loss += loss.data
-            loss.backward()
+             self.opt.zero_grad()
+             loss = self.forward(s_nodes, t_nodes, t_times, n_nodes, h_nodes, h_times, h_time_mask)
+             self.loss += loss.data
+             loss.backward()
+             self.opt.step()
 
     def train(self):
         """

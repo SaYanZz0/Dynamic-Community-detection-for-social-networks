@@ -5,7 +5,7 @@ import node2vec
 from gensim.models import Word2Vec
 
 def parse_args():
-	data = 'arxivAI'
+	data = 'patent'
 
 	parser = argparse.ArgumentParser(description="Run node2vec.")
 
