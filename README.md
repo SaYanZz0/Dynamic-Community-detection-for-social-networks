@@ -1,4 +1,4 @@
-# Deep Temporal Graph Clustering
+# Dynamic Graph Community detection
 
 This is an implementation of deep temporal graph clustering Paper, including a series of related papers and open source datasets.
 
